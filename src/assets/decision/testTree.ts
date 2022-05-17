@@ -122,7 +122,7 @@ const testTree: DecisionTree = [
   {
     id: '08a_serif_contrast',
     animationData: anim_08a_serif_contrast,
-    prompt: '¿Cómo es el contraste entre finos y gruesos?',
+    prompt: '¿Cómo es el contraste entre finos y gruesos?\nLigero: el fino entra menos de dos veces en el grueso\nPronunciado: el fino entra más de 4 veces en el grueso',
     options: [
       {
         displayText: 'Pronunciado',

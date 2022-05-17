@@ -41,8 +41,18 @@
   max-width: calc(100% - 4rem);
   
   background: var(--color-base-dark);
+  border: 1px solid var(--color-highlight);
   border-radius: 6px;
   overflow: hidden;
+}
+
+.dcard-top {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 1rem;
+  padding: 0.5rem 1.5rem;
+  border-bottom: 1px solid var(--color-base-darker);
 }
 
 .dcard-content {
@@ -50,7 +60,7 @@
   display: grid;
   place-items: center;
 
-  border-bottom: 2px solid var(--color-base-lighter)
+  border-bottom: 1px solid var(--color-base-darker);
 }
 
 .dcard-content > div {
@@ -106,6 +116,12 @@
   font-size: var(--font-large);
   font-weight: 900;
   line-height: 1;
+}
+
+@media screen and (max-width: 659px) {
+  .dcard-buttons {
+    flex-direction: column;
+  }
 }
 
 @keyframes clicked {

@@ -77,9 +77,9 @@ function App() {
             Cargar fuente (TTF)
           </button>
 
-          <button onClick={() => fontLoader?.click()}>
+          {/* <button onClick={() => fontLoader?.click()}>
             Cargar imagen
-          </button>
+          </button> */}
 
           <button onClick={() => setStarted(true)}>
             Seguir sin referencia

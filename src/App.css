@@ -2,7 +2,7 @@
   display: grid;
   grid-auto-flow: column;
   grid-template-columns: min(45%, 50ch) 1fr;
-  grid-template-rows: 10rem auto auto;
+  grid-template-rows: 10rem auto minmax(auto, 1fr);
 
   justify-content: center;
   align-content: start;
@@ -36,6 +36,8 @@
   grid-row: 3;
   grid-column: 1 / span 2;
   color: var(--color-text-light);
+
+  align-self: end;
 }
 
 .small {
@@ -49,6 +51,7 @@
 
 .font-upload {
   background-color: var(--color-base-dark);
+  border: 1px solid var(--color-highlight);
   border-radius: 6px;
 
   display: grid;

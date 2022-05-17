@@ -9,7 +9,7 @@ interface DecisionSlidesProps {
 }
 
 function DecisionSlides({ fontName, resetFont }: DecisionSlidesProps) {
-  const [lastNode, setLastNode] = useState<DecisionNode | FinalNode>();
+  const [history, setHistory] = useState<(DecisionNode | FinalNode)[]>([]);
   const [activeNode, setActiveNode] = useState<DecisionNode | FinalNode>();
   const [tree, setTree] = useState<DecisionTree>([]);
 
@@ -29,17 +29,28 @@ function DecisionSlides({ fontName, resetFont }: DecisionSlidesProps) {
   const setActiveById = (id: string): void => {
     const next = tree.find(node => node.id === id);
     if (next) {
-      setLastNode(activeNode);
+      if (activeNode) setHistory([...history, activeNode]);
       setActiveNode(next);
     } else console.error(`setActiveById: node with ID ${id} does not exist.`);
+  };
+
+  const goBack = (): void => {
+    if (history.length < 1) return;
+
+    setActiveNode(history[history.length - 1]);
+    setHistory(history.slice(0, history.length - 1));
   };
 
   console.log(activeNode?.id);
   return (
     <div className='slides-root'>
       {activeNode &&
-        <DecisionCard fontName={fontName} node={activeNode}
-          set={setActiveById} reset={(font) => {
+        <DecisionCard
+          fontName={fontName}
+          node={activeNode}
+          set={setActiveById}
+          back={goBack}
+          reset={(font) => {
             setActiveNode(tree[0]);
             if (font) resetFont();
           }} />

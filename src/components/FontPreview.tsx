@@ -27,12 +27,12 @@ const FontPreview = ({
 
       {fontFace &&
         <div className='pre-font' style={previewStyle}>
-          ASOMga
+          ASOMgae
         </div>}
       {!fontFace &&
         <div className='pre-placeholder'>
           <span>
-            Cargá una <a onClick={loadFont}>fuente</a> o <a onClick={loadImage}>imagen</a> para ver una referencia
+            Cargá una <a onClick={loadFont}>fuente</a> {/* o <a onClick={loadImage}>imagen</a> */} para ver una referencia
           </span>
         </div>}
     </div>

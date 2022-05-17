@@ -1,5 +1,6 @@
 .pre-container {
   background-color: var(--color-base-dark);
+  border: 1px solid var(--color-highlight);
   border-radius: 6px;
   padding: 1.5rem 3rem;
 }
