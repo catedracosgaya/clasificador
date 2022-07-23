@@ -1,0 +1,41 @@
+.crop-root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  display: grid;
+  padding: 4rem;
+  grid-template-columns: 100%;
+  grid-template-rows: auto 1fr;
+  gap: 2rem;
+
+  background-color: var(--color-base-dark);
+  z-index: 100;
+}
+
+.crop-content {
+  position: relative;
+
+  border: 1px solid var(--color-base-darker);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+}
+
+.crop-buttons {
+  justify-self: center;
+
+  border: 1px solid var(--color-base-darker);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+}
+
+.crop-buttons > button {
+  font-size: 2em;
+  border-radius: 5px;
+}
+
+.crop-cancel {
+  --color-accent: var(--color-warn); /* redefine accent to red for cancel */
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import opentype from 'opentype.js';
 
 import DecisionSlides from './components/DecisionSlides';
@@ -8,12 +8,22 @@ import Anchor from './components/Anchor';
 import './App.css';
 
 import { version } from '../package.json';
+import ImageCropper from './components/ImageCropper';
+import { Area } from 'react-easy-crop';
 
 function App() {
   const [started, setStarted] = useState(false);
+  const [imageUrl, setImageUrl] = useState('');
+  const [image, setImage] = useState<CanvasImageSource | null>(null);
+  const [imageCrop, setImageCrop] = useState<Area | null>(null);
   const [customFont, setCustomFont] = useState('');
   const [customFontName, setCustomFontName] = useState('');
   let fontLoader: HTMLElement | null = null;
+  let imageLoader: HTMLElement | null = null;
+
+  useEffect(() => {
+    if (image && imageCrop) setStarted(true);
+  }, [image, imageCrop]);
 
   const loadFont = async (ev: Event) => {
     const input = ev.target as HTMLInputElement;
@@ -35,6 +45,26 @@ function App() {
       setCustomFontName(fontName);
       setStarted(true);
     }
+  };
+
+  const loadImage = (ev: Event) => {
+    const input = ev.target as HTMLInputElement;
+
+    if (input.files) {
+      const file = input.files[0];
+      const dataUrl = URL.createObjectURL(file);
+
+      setImageUrl(dataUrl);
+    }
+  };
+
+  const onCropComplete = (crop: Area) => {
+    const img = document.createElement('img');
+    img.onload = () => {
+      setImage(img);
+      setImageCrop(crop);
+    };
+    img.src = imageUrl;
   };
 
   return (
@@ -61,9 +91,12 @@ function App() {
       </div>
 
       <div className='font-preview'>
-        <FontPreview fontFace={customFont} fontName={customFontName}
+        <FontPreview
+          fontFace={customFont}
+          fontName={customFontName}
+          refImage={{image: image, crop: imageCrop}}
           loadFont={() => fontLoader?.click()}
-          loadImage={() => fontLoader?.click()} />
+          loadImage={() => imageLoader?.click()} />
       </div>
 
       {!started &&
@@ -73,24 +106,38 @@ function App() {
             ref={el => fontLoader = el}
             onChange={ev => loadFont(ev.nativeEvent)} />
 
+          <input type='file' name='image_loader' id='image_loader'
+            accept='.png, .jpg, .jpeg' hidden
+            ref={el => imageLoader = el}
+            onChange={ev => loadImage(ev.nativeEvent)} />
+
           <button onClick={() => fontLoader?.click()}>
             Cargar fuente (TTF)
           </button>
 
-          {/* <button onClick={() => fontLoader?.click()}>
+          <button onClick={() => imageLoader?.click()}>
             Cargar imagen
-          </button> */}
+          </button>
 
           <button onClick={() => setStarted(true)}>
             Seguir sin referencia
           </button>
         </div>}
 
+      {!started && imageUrl &&
+        <ImageCropper
+          src={imageUrl}
+          onComplete={onCropComplete}
+          onCancel={() => setImageUrl('')}
+        />}
+
       {started &&
         <main className='decision-slides'>
           <DecisionSlides fontName={customFontName} resetFont={() => {
             setCustomFont('');
             setCustomFontName('');
+            setImageUrl('');
+            setImageCrop(null);
             setStarted(false);
           }} />
         </main>}

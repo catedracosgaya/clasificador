@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import { DecisionNode, FinalNode, isAnimation, isDecision } from '../utils/DecisionTree';
@@ -16,10 +16,27 @@ export interface DecisionCardProps {
 
 const DecisionCard = (props: DecisionCardProps) => {
   const [target, setTarget] = useState(0);
+  const [next, setNext] = useState<string | null>(null);
 
-  const select = (e: Event, next: string) => {
-    (e.target as HTMLElement).classList.add('clicked');
-    setTimeout(() => props.set(next), 100);
+  useEffect(() => {
+    setNext(null);
+  }, [props.node]);
+
+  const supportsHover = window.matchMedia('(any-hover: hover)').matches;
+
+  const select = (e: Event, next: string, targetFrame: number, mobile: boolean) => {
+    const btn = e.target as HTMLElement;
+    const siblings = btn.parentElement?.children;
+    if (siblings) {
+      for (let i = 0; i < siblings.length; i++)
+        siblings[i].classList.remove('clicked');
+    }
+    btn.classList.add('clicked');
+
+    if (mobile) {
+      setTarget(targetFrame);
+      setNext(next);
+    } else setTimeout(() => props.set(next), 100);
   };
 
   const decisionButtons = (props.node as DecisionNode).options
@@ -38,24 +55,38 @@ const DecisionCard = (props: DecisionCardProps) => {
         <button
           key={i}
           onMouseOver={() => setTarget(targetFrame)}
-          onClick={(e) => select(e.nativeEvent, option.leadsTo)} >
+          onClick={(e) => select(e.nativeEvent, option.leadsTo, targetFrame, !supportsHover)}
+        >
           {option.displayText}
         </button>
       );
     });
 
-  console.log(props.node);
   return (
     <TransitionGroup className='dcard-transition-group'>
       {[props.node].map(node => // hack to trigger the transition
         isDecision(node) ? (
           <CSSTransition key={node.id} classNames='card' timeout={500}>
             <div className='dcard-root'>
-              {props.node.id !== '01_serif_sans' &&
-                <div className="dcard-top">
-                  <button onClick={() => props.back()}>Atrás</button>
-                  <button onClick={() => props.reset(true)}>Inicio</button>
-                </div>}
+              <div className='dcard-top'>
+                <button className='small' onClick={() => props.reset(true)}>
+                  Inicio
+                </button>
+                {props.node.id !== '01_serif_sans' &&
+                  <button className='small' onClick={() => props.back()}>
+                    Atrás
+                  </button>
+                }
+                <div className='dcard-top-space' />
+                {next !== null &&
+                  <button
+                    className='small dcard-btn-next'
+                    onClick={() => props.set(next)}
+                  >
+                    Siguiente
+                  </button>
+                }
+              </div>
 
               <div className='dcard-content'>
                 {isAnimation(node) &&
@@ -85,10 +116,10 @@ const DecisionCard = (props: DecisionCardProps) => {
             <div className='dcard-root dcard-end'>
               {node.class &&
                 <div>
-                  Clasificaste {props.fontName} como:
+                  Clasificaste {props.fontName || 'esta familia'} como:
                 </div>}
               {node.class &&
-                <div className="dcard-end-class">
+                <div className='dcard-end-class'>
                   {node.class.split('/').map(part =>
                     part.charAt(0) === '#' ? (
                       <em>{part.substring(1)}</em>

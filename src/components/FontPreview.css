@@ -1,8 +1,13 @@
 .pre-container {
-  background-color: var(--color-base-dark);
-  border: 1px solid var(--color-highlight);
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--color-base);
+  border: 1px solid var(--color-base-darker);
   border-radius: 6px;
+
   padding: 1.5rem 3rem;
+  overflow: hidden;
 }
 
 .pre-label {
@@ -13,6 +18,7 @@
 }
 
 .pre-font,
+.pre-image,
 .pre-placeholder {
   margin-top: 1.5rem;
 
@@ -28,6 +34,12 @@
 .pre-font {
   font-size: 4rem;
   line-height: 4rem;
+}
+
+.pre-image {
+  height: 8.5rem;
+  width: calc(100% + 6rem);
+  margin: -1.5rem -3rem;
 }
 
 @media screen and (max-width: 659px) {

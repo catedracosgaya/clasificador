@@ -40,7 +40,7 @@
   align-self: end;
 }
 
-.small {
+span.small {
   font-size: 0.75em;
   color: var(--color-text-lighter);
 }
@@ -50,8 +50,8 @@
 }
 
 .font-upload {
-  background-color: var(--color-base-dark);
-  border: 1px solid var(--color-highlight);
+  background-color: var(--color-base);
+  border: 1px solid var(--color-base-darker);
   border-radius: 6px;
 
   display: grid;
