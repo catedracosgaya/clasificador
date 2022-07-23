@@ -22,7 +22,7 @@ const DecisionCard = (props: DecisionCardProps) => {
     setNext(null);
   }, [props.node]);
 
-  const supportsHover = window.matchMedia('(any-hover: hover)').matches;
+  const supportsHover = window.matchMedia('(hover: hover)').matches;
 
   const select = (e: Event, next: string, targetFrame: number, mobile: boolean) => {
     const btn = e.target as HTMLElement;
