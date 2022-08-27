@@ -110,6 +110,7 @@
 }
 
 .dcard-end {
+  display: grid;
   text-align: center;
   place-items: center;
   padding: 2.5rem 2rem;
