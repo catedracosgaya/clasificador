@@ -2,7 +2,7 @@
   display: grid;
   grid-auto-flow: column;
   grid-template-columns: min(45%, 50ch) 1fr;
-  grid-template-rows: 10rem auto minmax(auto, 1fr);
+  grid-template-rows: 10rem auto auto;
 
   justify-content: center;
   align-content: start;
@@ -28,13 +28,13 @@
   z-index: 1;
 }
 
-.summary p + p {
+.summary p+p {
   margin-top: 1em;
 }
 
 .credits {
   grid-row: 3;
-  grid-column: 1 / span 2;
+  grid-column: 1;
   color: var(--color-text-light);
 
   align-self: end;
@@ -63,6 +63,7 @@ span.small {
 }
 
 .decision-slides {
+  grid-row: span 2;
   margin: 0 -2rem;
 }
 
@@ -72,6 +73,11 @@ span.small {
     grid-template-rows: 10rem auto 10rem auto auto;
     padding-bottom: 5rem;
     max-width: calc(45ch + 16rem);
+  }
+
+  .decision-slides {
+    grid-row: span 1;
+    margin: 0 -2rem;
   }
 
   .credits {

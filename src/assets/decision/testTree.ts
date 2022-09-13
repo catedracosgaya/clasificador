@@ -1,18 +1,22 @@
-import anim_01_serif_sans from '../01_serif_sans.json';
-import anim_02_stroke from '../02_stroke.json';
-import anim_07_serif_axis from '../04_serif_axis.json';
-import anim_08a_serif_contrast from '../serif_contrast.json';
-import anim_08b_serif_contrast_simple from '../serif_contrast_simple.json';
-import anim_13_serif_e_axis from '../serif_e_axis.json';
+// Import animations
+import anim_01_serif_sans from '../lottie/serif_sans.json';
+import anim_02_stroke from '../lottie/stroke.json';
+import anim_07_serif_axis from '../lottie/serif_axis.json';
+import anim_08a_serif_contrast from '../lottie/serif_contrast.json';
+import anim_08b_serif_contrast_simple from '../lottie/serif_contrast_simple.json';
+import anim_13_serif_e_axis from '../lottie/serif_e_axis.json';
 
-import svg_03_sans_geom from '../sans_geom.svg';
-import svg_04_sans_human from '../sans_huma.svg';
-import svg_05_sans_grot from '../sans_grot.svg';
-import svg_09_serif_mod from '../serif_mod.svg';
-import svg_10_serif_trn from '../serif_trn.svg';
-import svg_11_serif_old from '../serif_old.svg';
-import svg_12_serif_human from '../serif_hum.svg';
-import svg_14_serif_slab from '../serif_slab.svg';
+// Import static illustrations
+import svg_03_sans_geom from '../svg/sans_geom.svg';
+import svg_04_sans_human from '../svg/sans_huma.svg';
+import svg_05_sans_grot from '../svg/sans_grot.svg';
+import svg_09_serif_mod from '../svg/serif_mod.svg';
+import svg_10_serif_trn from '../svg/serif_trn.svg';
+import svg_11_serif_old from '../svg/serif_old.svg';
+import svg_12_serif_human from '../svg/serif_hum.svg';
+import svg_14_serif_slab from '../svg/serif_slab.svg';
+import svg_15_hybrid from '../svg/hybrid.svg';
+
 
 import { DecisionTree } from '../../utils/DecisionTree';
 
@@ -86,7 +90,7 @@ const testTree: DecisionTree = [
       },
       {
         displayText: 'No',
-        leadsTo: 'E00_unclassified'
+        leadsTo: '15a_hybrid_sans_route_1'
       }
     ]
   },
@@ -212,7 +216,7 @@ const testTree: DecisionTree = [
       },
       {
         displayText: 'No',
-        leadsTo: 'E00_unclassified'
+        leadsTo: '15c_hybrid_serif_route_1'
       }
     ]
   },
@@ -228,7 +232,7 @@ const testTree: DecisionTree = [
       },
       {
         displayText: 'No',
-        leadsTo: 'E00_unclassified',
+        leadsTo: '15d_hybrid_serif_route_2',
         targetFrame: 0
       }
     ]
@@ -241,6 +245,69 @@ const testTree: DecisionTree = [
       {
         displayText: 'Sí',
         leadsTo: 'E04_serif_slab'
+      },
+      {
+        displayText: 'No',
+        leadsTo: '15a_hybrid_sans_route_1'
+      }
+    ]
+  },
+  // This route is a bit complicated, as the slides are presented in alternate order
+  // depending on whether we come from a sans serif route (a -> b), or a serif route
+  // (c -> d). Duplicating the slides is easier than coding in a special case.
+  {
+    id: '15a_hybrid_sans_route_1',
+    imageSrc: svg_15_hybrid,
+    prompt: '¿Hay un leve aumento de grosor hacia el final del trazo?',
+    options: [
+      {
+        displayText: 'Sí',
+        leadsTo: 'E09_hybrid'
+      },
+      {
+        displayText: 'No',
+        leadsTo: '15b_hybrid_sans_route_2'
+      }
+    ]
+  },
+  {
+    id: '15b_hybrid_sans_route_2',
+    imageSrc: svg_15_hybrid,
+    prompt: '¿Los remates son triangulares, finos y muy cortos?',
+    options: [
+      {
+        displayText: 'Sí',
+        leadsTo: 'E09_hybrid'
+      },
+      {
+        displayText: 'No',
+        leadsTo: 'E00_unclassified'
+      }
+    ]
+  },
+  {
+    id: '15c_hybrid_serif_route_1',
+    imageSrc: svg_15_hybrid,
+    prompt: '¿Los remates son triangulares, finos y muy cortos?',
+    options: [
+      {
+        displayText: 'Sí',
+        leadsTo: 'E09_hybrid'
+      },
+      {
+        displayText: 'No',
+        leadsTo: '15d_hybrid_serif_route_2'
+      }
+    ]
+  },
+  {
+    id: '15d_hybrid_serif_route_2',
+    imageSrc: svg_15_hybrid,
+    prompt: '¿Hay un leve aumento de grosor hacia el final del trazo?',
+    options: [
+      {
+        displayText: 'Sí',
+        leadsTo: 'E09_hybrid'
       },
       {
         displayText: 'No',
@@ -285,6 +352,10 @@ const testTree: DecisionTree = [
   {
     id: 'E08_serif_human',
     class: 'Romana /#humanística/'
+  },
+  {
+    id: 'E09_hybrid',
+    class: '/#Incisa/ (híbrida)'
   }
 ];
 
