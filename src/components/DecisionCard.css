@@ -131,6 +131,10 @@
     min-width: unset;
   }
 
+  .dcard-prompt {
+    padding: 1rem 1.5rem;
+  }
+
   .dcard-buttons {
     flex-direction: column;
   }
